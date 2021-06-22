@@ -1,0 +1,49 @@
+﻿<h2>Task List</h2>
+<button mat-raised-button color="primary">Add New Task</button>
+<table mat-table *ngIf="dataSource" [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.id | titlecase}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="task">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task </th>
+    <td mat-cell *matCellDef="let element"> {{element.task | titlecase}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+    <ng-container *matCellDef="let element">
+      <td mat-cell *ngIf="(element.status==='not-started'); else noChange"><button mat-button color="warn" [disabled]="checkDueDateForDisabling(element.dueDate)" (click)="updateStatusOfTask(element.id, 'in-progress')">Start</button></td>
+      <ng-template #noChange><td mat-cell><button mat-button [color]="element.status === 'in-progress' ? 'accent' : 'warn'" [disabled]="element.status === 'done'">{{element.status | titlecase}}</button></td></ng-template>
+    </ng-container>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="dueDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.dueDate | date:'longDate'}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="markAsDone">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mark As Done </th>
+    <ng-container *matCellDef="let element">
+      <td mat-cell *ngIf="(element.status==='in-progress'); else noChange"><mat-slide-toggle [disabled]="checkDueDateForDisabling(element.dueDate)" [checked]="checkStatus(element.status)" (click)="updateStatusOfTask(element.id, 'done')"></mat-slide-toggle></td>
+      <ng-template #noChange><td mat-cell></td></ng-template>
+    </ng-container>
+    <td mat-cell *matCellDef="let element">  </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"  [class]="checkDueDate(row)" ng-disabled="checkDueDateForDisabling(row.dueDate)"></tr>
+</table>
+
+
+<!-- Copyright 2021 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
