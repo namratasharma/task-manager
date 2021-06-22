@@ -5,13 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { ApiServiceService } from '../../services';
 import { MatDialog} from '@angular/material/dialog';
 import {ExampleDialogComponent} from '../dialogs/example/example-dialog.component';
-
-export interface PeriodicElement {
-  id: string;
-  task: string;
-  status: string;
-  dueDate: string;
-}
+import {Task} from '../../models/task';
 
 @Component({
   selector: 'home-component',
@@ -22,7 +16,7 @@ export interface PeriodicElement {
 export class HomeComponent implements OnInit {
   constructor(private apiService: ApiServiceService, private datePipe: DatePipe, public dialog: MatDialog) {}
   displayedColumns: string[] = ['id', 'task', 'status', 'dueDate', 'markAsDone'];
-  tasks: PeriodicElement[] = [];
+  tasks: Task[] = [];
   dataSource:any;
   today: any = new Date().getTime();
 
@@ -62,7 +56,6 @@ export class HomeComponent implements OnInit {
   }
 
   updateStatusOfTask = (id: string, status: string) => {
-    debugger;
     let dialogRef = this.dialog.open(ExampleDialogComponent, {
       width: '500px',
       data: {status: (status == 'done' ? 'completed' : 'started')}
@@ -83,5 +76,13 @@ export class HomeComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  checkStatusIfEnabled = (el:Task) => {
+    if(!this.checkDueDateForDisabling(el.dueDate) && el.status == "in-progress"){
+        return true;
+      } else {
+        return false;
+      }
   }
 }
