@@ -15,7 +15,7 @@ import { TaskDetailComponent } from '../dialogs/task-detail/task-detail.componen
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  constructor(private apiService: ApiServiceService, private datePipe: DatePipe, public dialog: MatDialog) {}
+  constructor(private apiService: ApiServiceService, private datePipe: DatePipe, public dialog: MatDialog,) {}
   displayedColumns: string[] = ['id', 'task', 'status', 'dueDate', 'markAsDone'];
   tasks: Task[] = [];
   dataSource:any;

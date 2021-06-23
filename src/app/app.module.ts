@@ -23,6 +23,8 @@ import { AppRoutingModule } from './app-routing.module';
 //import { ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './components/home/home.component';
 import { DialogModule } from './components/dialogs/dialog.module';
+import { LoginComponent } from './components/login/login.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
     imports: [
@@ -48,7 +50,9 @@ import { DialogModule } from './components/dialogs/dialog.module';
     ],
     declarations: [
         AppComponent,
-        HomeComponent
+        HomeComponent,
+        LoginComponent,
+        ContactComponent
     ],
     // providers: [
     //     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

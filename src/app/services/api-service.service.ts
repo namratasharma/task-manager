@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {AutheticationService} from '../services/authetication.service';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
 import {Task} from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiServiceService {
-  constructor(private router: Router,private http: HttpClient) {}
+  constructor(private router: Router,private http: HttpClient, private auth: AutheticationService) {}
 
   gettaskList(pageId:number) {
       //return this.http.get<any>(`${environment.apiUrl}/tasks`).pipe(map((res:any) => res.json)) //already contains json;
@@ -18,7 +17,9 @@ export class ApiServiceService {
       const headers = new HttpHeaders({
           Authorization: "Basic " + btoa("user:secret123")
         });
-      return this.http.get<Task[]>(url, { headers });
+      const userValue = this.auth.userValue ? this.auth.userValue : {};
+      const params = new HttpParams().set('user', JSON.stringify(userValue));
+      return this.http.get<Task[]>(url, { headers, params});
   }
 
   updatetaskList(task: Task) {
