@@ -6,6 +6,7 @@ import { ApiServiceService } from '../../services';
 import { MatDialog} from '@angular/material/dialog';
 import {ExampleDialogComponent} from '../dialogs/example/example-dialog.component';
 import {Task} from '../../models/task';
+import { TaskDetailComponent } from '../dialogs/task-detail/task-detail.component';
 
 @Component({
   selector: 'home-component',
@@ -55,15 +56,43 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  updateStatusOfTask = (id: string, status: string) => {
-    let dialogRef = this.dialog.open(ExampleDialogComponent, {
+  addNewTask = () => {
+    let dialogRefNewTask = this.dialog.open(TaskDetailComponent, {
       width: '500px',
-      data: {status: (status == 'done' ? 'completed' : 'started')}
+      data: {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRefNewTask.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  opentaskDetailDialog = (element: Task) => {
+    let dialogRefUpdateTask = this.dialog.open(TaskDetailComponent, {
+      width: '500px',
+      data: element
+    });
+
+    dialogRefUpdateTask.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  updateStatusOfTask = (id: string, status: string) => {
+    this.apiService.updatetaskStatus(id, status).subscribe(result => {
+      this.dataSource = new MatTableDataSource();
+      this.dataSource.data = result;
+      let dialogRef = this.dialog.open(ExampleDialogComponent, {
+        width: '500px',
+        data: {status: (status == 'done' ? 'completed' : 'started')}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    },
+    err => console.log(err),
+    () => console.log('Completed'))
   }
 
   getDetailOfTask = () => {

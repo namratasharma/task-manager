@@ -14,5 +14,4 @@ export class ExampleDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }
