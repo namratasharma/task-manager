@@ -1,8 +1,7 @@
-﻿import {Component, OnInit, Inject} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+﻿import {Component, OnInit} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
-import { ApiServiceService } from '../../services';
+import { ApiServiceService, AutheticationService } from '../../services';
 import { MatDialog} from '@angular/material/dialog';
 import {ExampleDialogComponent} from '../dialogs/example/example-dialog.component';
 import {Task} from '../../models/task';
@@ -15,20 +14,24 @@ import { TaskDetailComponent } from '../dialogs/task-detail/task-detail.componen
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  constructor(private apiService: ApiServiceService, private datePipe: DatePipe, public dialog: MatDialog,) {}
+  constructor(private apiService: ApiServiceService, public dialog: MatDialog, private authService: AutheticationService) {}
   displayedColumns: string[] = ['id', 'task', 'status', 'dueDate', 'markAsDone'];
   tasks: Task[] = [];
   dataSource:any;
   today: any = new Date().getTime();
 
   ngOnInit() {
-    //this.dataSource.sort = this.sort;
-    this.apiService.gettaskList(1).subscribe(result => {
-      this.dataSource = new MatTableDataSource();
-      this.dataSource.data = result;
-    },
-    err => console.log(err),
-    () => console.log('Completed'))
+    if(this.authService.userValue && this.authService.userValue!=''){
+      //this.dataSource.sort = this.sort;
+      this.apiService.gettaskList(1).subscribe(result => {
+        this.dataSource = new MatTableDataSource();
+        this.dataSource.data = result;
+      },
+      err => console.log(err),
+      () => console.log('Completed'))
+    } else {
+      this.authService.logout();
+    }
   }
 
   checkDueDate = (dataInRow: any) => {

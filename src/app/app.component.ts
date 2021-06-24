@@ -8,7 +8,6 @@ import { AutheticationService } from './services/authetication.service';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'task-manager';
   user:any = null;
   constructor(
     private router: Router,
@@ -16,9 +15,11 @@ export class AppComponent {
   ) {
       // redirect to home if already logged in
       if (this.authenticationService.userValue) {
-          this.user = this.authenticationService.userValue;
-      } else {
-        this.user = null;
+          if(typeof this.authenticationService.userValue == 'object') {
+            this.user = this.authenticationService.userValue;
+          } else {
+            this.user = JSON.parse(this.authenticationService.userValue);
+          }
       }
   }
 

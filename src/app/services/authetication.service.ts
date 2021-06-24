@@ -9,20 +9,19 @@ import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AutheticationService {
-    private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;
+    private userSubject: BehaviorSubject<User | null | string>;
+    public user: Observable<User | null |string>;
 
     constructor(
         private router: Router,
         private http: HttpClient
     ) {
-        const dataFromLocalStorage = localStorage.getItem('user');
-        this.userSubject = new BehaviorSubject<User>(dataFromLocalStorage?JSON.parse(dataFromLocalStorage):null);
+        this.userSubject = new BehaviorSubject<User|null|string>(localStorage.getItem('user'));
         this.user = this.userSubject.asObservable();
     }
 
-    public get userValue(): User {
-        return this.userSubject.value;
+    public get userValue(): User | null | string{
+        return (this.userSubject.value ? this.userSubject.value : null);
     }
 
     login(username: string, password: string) {
@@ -38,7 +37,7 @@ export class AutheticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('user');
-        this.userSubject.next({});
+        this.userSubject.next(null);
         this.router.navigate(['/login']);
     }
 }

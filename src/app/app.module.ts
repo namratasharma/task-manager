@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-//import { ErrorInterceptor } from './_helpers';
+import { ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './components/home/home.component';
 import { DialogModule } from './components/dialogs/dialog.module';
 import { LoginComponent } from './components/login/login.component';
@@ -54,9 +54,9 @@ import { ContactComponent } from './components/contact/contact.component';
         LoginComponent,
         ContactComponent
     ],
-    // providers: [
-    //     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-    // ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 

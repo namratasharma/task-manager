@@ -17,9 +17,16 @@ export class ApiServiceService {
       const headers = new HttpHeaders({
           Authorization: "Basic " + btoa("user:secret123")
         });
-      const userValue = this.auth.userValue ? this.auth.userValue : {};
-      const params = new HttpParams().set('userId', JSON.stringify(userValue.id)).set('userRole', JSON.stringify(userValue.role));
-      return this.http.get<Task[]>(url, { headers, params});
+      let userValue:any = this.auth.userValue ? this.auth.userValue : null;
+      if((userValue && typeof userValue == 'object') || (userValue && typeof userValue == 'string')) {
+          if(typeof userValue == 'string'){
+            userValue = JSON.parse(userValue);
+          }
+          const params = new HttpParams().set('userId', userValue.id).set('userRole', userValue.role);
+          return this.http.get<Task[]>(url, { headers, params});
+      } else {
+        return this.http.get<Task[]>(url, { headers});
+      }
   }
 
   updatetaskList(task: Task) {

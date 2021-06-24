@@ -247,8 +247,8 @@ export const dbData = {
     }
   ],
   "users": [
-    { "id": 1, "username": 'admin', "password": 'admin', "firstName": 'Admin', "lastName": "User", role: "admin" },
-    { "id": 2, "username": 'user', "password": 'user', "firstName": "Namrata", "lastName": "Sharma", role: "user" },
-    { "id": 3, "username": 'vikash', "password": 'vikash', "firstName": "Vikash", "lastName": "Shukla", role: "user" }
+    { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: "User", role: "admin" },
+    { id: 2, username: 'user', password: 'user', firstName: "Namrata", lastName: "Sharma", role: "user" },
+    { id: 3, username: 'vikash', password: 'vikash', firstName: "Vikash", lastName: "Shukla", role: "user" }
   ]
 };

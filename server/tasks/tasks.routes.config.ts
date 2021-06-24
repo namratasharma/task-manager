@@ -11,9 +11,11 @@ export class TasksRoutes extends CommonRoutesConfig {
     this.app.route(`/tasks`)
         .get((req: express.Request, res: express.Response) => {
             const loggedInUser = req.query.userId;
-            const roleOfUser = req.query.role;
+            const roleOfUser = req.query.userRole;
             var result = [];
-            if(roleOfUser == 'admin') {
+
+            if(roleOfUser === 'admin') {
+              console.log("hello")
               result = dbData.tasks;
             } else {
               result =  dbData.tasks.filter(el=> el.assignedTo.toString() == loggedInUser);
