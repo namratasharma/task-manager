@@ -6,6 +6,7 @@ import * as expressWinston from 'express-winston';
 import cors from 'cors';
 import {CommonRoutesConfig} from './common/common.routes.config';
 import {TasksRoutes} from './tasks/tasks.routes.config';
+import {UsersRoutes} from './users/users.routes.config';
 import debug from 'debug';
 
 const app: express.Application = express();
@@ -41,6 +42,7 @@ app.use(expressWinston.logger(loggerOptions));
 // here we are adding the UserRoutes to our array,
 // after sending the Express.js application object to have the routes added to our app!
 routes.push(new TasksRoutes(app));
+routes.push(new UsersRoutes(app));
 
 // this is a simple route to make sure everything is working properly
 const runningMessage = `Server running at http://localhost:${port}`;
