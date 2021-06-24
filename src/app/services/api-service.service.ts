@@ -18,7 +18,7 @@ export class ApiServiceService {
           Authorization: "Basic " + btoa("user:secret123")
         });
       const userValue = this.auth.userValue ? this.auth.userValue : {};
-      const params = new HttpParams().set('user', JSON.stringify(userValue));
+      const params = new HttpParams().set('userId', JSON.stringify(userValue.id)).set('userRole', JSON.stringify(userValue.role));
       return this.http.get<Task[]>(url, { headers, params});
   }
 

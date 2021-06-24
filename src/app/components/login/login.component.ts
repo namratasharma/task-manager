@@ -5,7 +5,11 @@ import { first } from 'rxjs/operators';
 
 import { AutheticationService } from '../../services/authetication.service';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.sass']
+})
 export class LoginComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,

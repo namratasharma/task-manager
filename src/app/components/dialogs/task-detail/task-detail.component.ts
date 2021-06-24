@@ -33,18 +33,11 @@ export class TaskDetailComponent implements OnInit {
   ]
 
   taskForm = this.formBuilder.group({
-    id: ['', Validators.required],
+    id: [''],
     task: ['', Validators.required],
     status: ['', Validators.required],
-    dueDate: ['', Validators.required],
-    aliases: this.formBuilder.array([
-      this.formBuilder.control('')
-    ])
+    dueDate: ['', Validators.required]
   });
-
-  get aliases() {
-    return this.taskForm.get('aliases') as FormArray;
-  }
 
   taskDetails:Task = {
     id: '',
@@ -52,10 +45,15 @@ export class TaskDetailComponent implements OnInit {
     status: '',
     dueDate: ''
   }
+  formSubmitted:boolean = false;
 
   getErrorMessage() {
     if (this.task.hasError('required')) {
       return 'You must enter a value';
+    }
+
+    if (this.status.hasError('required')) {
+      return 'You must select status';
     }
 
     return this.dueDate.hasError('required') ? 'Please select Due Date' : '';
@@ -78,6 +76,7 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onFormSubmit():void {
+   if(this.taskForm.valid) {
     if(this.taskDetails.id) {
       this.taskDetails.task = this.task.value;
       this.taskDetails.dueDate = this.dueDate.value;
@@ -104,11 +103,9 @@ export class TaskDetailComponent implements OnInit {
     },
     err => console.log(err),
     () => console.log('Completed'))
-  }
-
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.taskForm.value);
+   } else {
+    //fill all the values in form
+   }
   }
 
   makeRandomString = (lengthOfCode: number, possible: string) => {

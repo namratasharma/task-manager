@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>Hi Namrata</h1>
-<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="taskForm" (ngSubmit)="onFormSubmit()">
 <div mat-dialog-content>
   <div class="example-container">
-      <input type="hidden" [formControl]="task" required>
+      <input type="hidden" [formControl]="id">
       <mat-form-field appearance="fill">
         <mat-label>Enter task</mat-label>
         <input matInput placeholder="Brief of task" [formControl]="task" required>
@@ -27,7 +27,7 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button type="submit" mat-raised-button [disabled]="!taskForm.valid">Submit</button>
+  <button type="submit" mat-raised-button>Submit</button>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
 </div>
 </form>
