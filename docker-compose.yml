@@ -1,0 +1,26 @@
+version: "2"
+services:
+    redis-server:
+        image: 'redis'
+    frontend:
+        container_name: apiportal_web
+        build:
+            context: ./frontEnd
+            dockerfile: Dockerfile
+        image: apiportal_web
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontEnd:/usr/src/app
+            - /usr/src/app/node_modules
+    backend:
+        container_name: apiportal_server
+        build:
+            context: ./backEnd
+            dockerfile: Dockerfile
+        image: apiportal_server
+        ports:
+            - "3200:3200"
+        volumes:
+            - ./backEnd:/usr/src/app
+            - /usr/src/app/node_modules
